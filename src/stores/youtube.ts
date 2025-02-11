@@ -41,14 +41,20 @@ export const useYouTubeStore = defineStore("youtube", () => {
 
   async function getChannelId(url: string) {
     try {
-      const username = url.split("@")[1]?.split("/")[0];
-      if (!username) throw new Error("Invalid channel URL");
+      const handle = url.split("@")[1]?.split("/")[0];
+      if (!handle) throw new Error("Invalid channel URL");
 
-      const response = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/channels?part=id&forUsername=${username}&key=${apiKey}`
+      // First try searching for the channel by handle
+      const searchResponse = await fetch(
+        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=@${handle}&type=channel&key=${apiKey}`
       );
-      const data = await response.json();
-      return data.items[0]?.id;
+      const searchData = await searchResponse.json();
+
+      if (searchData.items && searchData.items.length > 0) {
+        return searchData.items[0].snippet.channelId;
+      }
+
+      throw new Error("Could not find channel");
     } catch (e) {
       throw new Error("Could not find channel");
     }

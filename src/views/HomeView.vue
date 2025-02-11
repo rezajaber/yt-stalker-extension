@@ -24,7 +24,7 @@ function formatDuration(minutes: number) {
     <h1
       class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center"
     >
-      YouTube Time Calculator
+      Channel 🕙 Calculator
     </h1>
 
     <div class="flex gap-3 mb-6">
