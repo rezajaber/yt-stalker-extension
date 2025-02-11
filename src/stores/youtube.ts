@@ -110,7 +110,7 @@ export const useYouTubeStore = defineStore("youtube", () => {
     const minutes = parseInt(match[2] || "0");
     const seconds = parseInt(match[3] || "0");
 
-    return hours * 60 + minutes + Math.ceil(seconds / 60);
+    return hours * 60 + minutes + seconds / 60;
   }
 
   function calculateTotalDuration() {
