@@ -18,40 +18,74 @@ function formatDuration(minutes: number) {
 </script>
 
 <template>
-  <div class="container">
-    <h1>YouTube Time Calculator</h1>
+  <div
+    class="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg dark:bg-gray-800"
+  >
+    <h1
+      class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center"
+    >
+      YouTube Time Calculator
+    </h1>
 
-    <div class="input-group">
+    <div class="flex gap-3 mb-6">
       <input
         v-model="url"
         type="text"
         placeholder="Enter YouTube channel URL"
         @keyup.enter="calculateTime"
+        class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white outline-none transition-all"
       />
-      <button @click="calculateTime" :disabled="youtubeStore.isLoading">
+      <button
+        @click="calculateTime"
+        :disabled="youtubeStore.isLoading"
+        class="px-6 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors duration-200 disabled:cursor-not-allowed"
+      >
         Calculate
       </button>
     </div>
 
-    <div v-if="youtubeStore.isLoading" class="loading">
-      <span class="loader"></span>
-      Loading...
+    <div
+      v-if="youtubeStore.isLoading"
+      class="flex items-center justify-center space-x-2 my-8 text-gray-600 dark:text-gray-300"
+    >
+      <div
+        class="w-5 h-5 border-2 border-gray-200 border-t-red-600 rounded-full animate-spin"
+      ></div>
+      <span>Loading...</span>
     </div>
 
-    <div v-if="youtubeStore.error" class="error">
+    <div
+      v-if="youtubeStore.error"
+      class="p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-center my-4"
+    >
       {{ youtubeStore.error }}
     </div>
 
-    <div v-if="youtubeStore.videos.length" class="results">
-      <h2>Results</h2>
-      <div class="stats">
-        <div class="stat-item">
-          <span class="stat-label">Total Videos:</span>
-          <span class="stat-value">{{ youtubeStore.videos.length }}</span>
+    <div
+      v-if="youtubeStore.videos.length"
+      class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6"
+    >
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        Results
+      </h2>
+      <div class="space-y-3">
+        <div
+          class="flex justify-between items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-sm"
+        >
+          <span class="text-gray-600 dark:text-gray-300 font-medium"
+            >Total Videos</span
+          >
+          <span class="text-gray-900 dark:text-white font-bold">{{
+            youtubeStore.videos.length
+          }}</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-label">Total Watch Time:</span>
-          <span class="stat-value">{{
+        <div
+          class="flex justify-between items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-sm"
+        >
+          <span class="text-gray-600 dark:text-gray-300 font-medium"
+            >Total Watch Time</span
+          >
+          <span class="text-gray-900 dark:text-white font-bold">{{
             formatDuration(youtubeStore.totalDuration)
           }}</span>
         </div>
@@ -59,127 +93,3 @@ function formatDuration(minutes: number) {
     </div>
   </div>
 </template>
-
-<style scoped>
-.container {
-  width: 350px;
-  min-height: 250px;
-  padding: 16px;
-  background-color: #ffffff;
-  font-family: Arial, sans-serif;
-}
-
-h1 {
-  font-size: 1.5rem;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.input-group {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 1rem;
-}
-
-input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-button {
-  padding: 8px 16px;
-  background-color: #ff0000;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s;
-}
-
-button:hover {
-  background-color: #cc0000;
-}
-
-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.loading {
-  text-align: center;
-  margin: 2rem 0;
-  color: #666;
-}
-
-.loader {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #ff0000;
-  border-radius: 50%;
-  margin-right: 8px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.error {
-  color: #ff0000;
-  text-align: center;
-  padding: 1rem;
-  background-color: #ffebee;
-  border-radius: 4px;
-  margin: 1rem 0;
-}
-
-.results {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: #f8f8f8;
-  border-radius: 4px;
-}
-
-.results h2 {
-  font-size: 1.2rem;
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
-}
-
-.stats {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.stat-label {
-  color: #666;
-  font-weight: 500;
-}
-
-.stat-value {
-  color: #1a1a1a;
-  font-weight: bold;
-}
-</style>
