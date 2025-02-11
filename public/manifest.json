@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Channel Time Calculator",
+  "version": "1.0",
+  "description": "Calculate total watch time for YouTube channels",
+  "permissions": ["activeTab"],
+  "host_permissions": [
+    "https://youtube.googleapis.com/*",
+    "https://www.googleapis.com/*"
+  ],
+  "action": {
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
