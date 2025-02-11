@@ -95,7 +95,9 @@ export const useYouTubeStore = defineStore("youtube", () => {
       const processedVideos = data.items.map((item: any) => ({
         id: item.id,
         title: item.snippet.title,
-        duration: parseDuration(item.contentDetails.duration),
+        duration: Number(
+          parseDuration(item.contentDetails.duration).toFixed(2)
+        ),
       }));
 
       videos.value.push(...processedVideos);
@@ -114,9 +116,8 @@ export const useYouTubeStore = defineStore("youtube", () => {
   }
 
   function calculateTotalDuration() {
-    totalDuration.value = videos.value.reduce(
-      (acc, video) => acc + video.duration,
-      0
+    totalDuration.value = Number(
+      videos.value.reduce((acc, video) => acc + video.duration, 0).toFixed(2)
     );
   }
 

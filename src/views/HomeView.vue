@@ -19,75 +19,76 @@ function formatDuration(minutes: number) {
 
 <template>
   <div
-    class="max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg dark:bg-gray-800"
+    class="min-h-screen flex items-center justify-center p-6 bg-gray-50 dark:bg-gray-900"
   >
-    <h1
-      class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center"
-    >
-      Channel 🕙 Calculator
-    </h1>
-
-    <div class="flex gap-3 mb-6">
-      <input
-        v-model="url"
-        type="text"
-        placeholder="Enter YouTube channel URL"
-        @keyup.enter="calculateTime"
-        class="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white outline-none transition-all"
-      />
-      <button
-        @click="calculateTime"
-        :disabled="youtubeStore.isLoading"
-        class="px-6 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors duration-200 disabled:cursor-not-allowed"
-      >
-        Calculate
-      </button>
-    </div>
-
     <div
-      v-if="youtubeStore.isLoading"
-      class="flex items-center justify-center space-x-2 my-8 text-gray-600 dark:text-gray-300"
+      class="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl dark:bg-gray-800 space-y-8"
     >
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white text-center">
+        Channel Duration ⏱️
+      </h1>
+
+      <div class="flex gap-4">
+        <input
+          v-model="url"
+          type="text"
+          placeholder="Enter YouTube channel URL"
+          @keyup.enter="calculateTime"
+          class="flex-1 px-4 py-3 rounded-xl border-2 border-gray-100 dark:border-gray-700 focus:ring-4 focus:ring-red-500/20 focus:border-red-500 dark:bg-gray-700/50 dark:text-white outline-none transition-all duration-200"
+        />
+        <button
+          @click="calculateTime"
+          :disabled="youtubeStore.isLoading"
+          class="px-6 py-3 bg-black hover:bg-red-800 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white font-semibold rounded-xl transition-all duration-200 cursor-pointer disabled:cursor-not-allowed shadow-lg hover:shadow-red-500/30 disabled:shadow-none"
+        >
+          Calculate
+        </button>
+      </div>
+
       <div
-        class="w-5 h-5 border-2 border-gray-200 border-t-red-600 rounded-full animate-spin"
-      ></div>
-      <span>Loading...</span>
-    </div>
-
-    <div
-      v-if="youtubeStore.error"
-      class="p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-center my-4"
-    >
-      {{ youtubeStore.error }}
-    </div>
-
-    <div
-      v-if="youtubeStore.videos.length"
-      class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6"
-    >
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-        Results
-      </h2>
-      <div class="space-y-3">
+        v-if="youtubeStore.isLoading"
+        class="flex items-center justify-center space-x-3 py-8"
+      >
         <div
-          class="flex justify-between items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-sm"
+          class="w-6 h-6 border-3 border-gray-200 border-t-red-500 rounded-full animate-spin"
+        ></div>
+        <span class="text-gray-600 dark:text-gray-300 font-medium"
+          >Processing...</span
         >
-          <span class="text-gray-600 dark:text-gray-300 font-medium"
-            >Total Videos</span
+      </div>
+
+      <div
+        v-if="youtubeStore.error"
+        class="p-6 bg-red-50 dark:bg-red-900/30 border-2 border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-center font-medium"
+      >
+        {{ youtubeStore.error }}
+      </div>
+
+      <div v-if="youtubeStore.videos.length" class="space-y-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+          Channel Stats
+        </h2>
+        <div class="space-y-4">
+          <div
+            class="flex justify-between items-center p-6 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-700"
           >
-          <span class="text-gray-900 dark:text-white font-bold">{{
-            youtubeStore.videos.length
-          }}</span>
-        </div>
-        <div
-          class="flex justify-between items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-sm"
-        >
-          <span class="text-gray-600 dark:text-gray-300 font-medium"
-            >Total Watch Time</span
+            <span class="text-gray-600 dark:text-gray-300 font-medium"
+              >Total Videos</span
+            >
+            <span class="text-lg text-gray-900 dark:text-white font-bold">
+              {{ youtubeStore.videos.length }}
+            </span>
+          </div>
+          <div
+            class="flex justify-between items-center p-6 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-700"
           >
-          <span class="text-gray-900 dark:text-white font-bold">{{
-            formatDuration(youtubeStore.totalDuration)
-          }}</span>
+            <span class="text-gray-600 dark:text-gray-300 font-medium"
+              >Total Duration</span
+            >
+            <span class="text-lg text-gray-900 dark:text-white font-bold">
+              {{ formatDuration(youtubeStore.totalDuration) }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
